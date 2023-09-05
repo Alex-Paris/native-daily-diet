@@ -18,6 +18,13 @@ export default {
     GRAY_200: '#EFF0F0',
     GRAY_100: '#FAFAFA'
   },
+  PRED_STYLES: {
+    SCREEN_CONTAINER: {
+      flex: 1,
+      paddingLeft: '24px',
+      paddingRight: '24px',
+    }
+  },
   FONT_FAMILY: {
     REGULAR: 'NunitoSans_400Regular',
     BOLD: 'NunitoSans_700Bold'

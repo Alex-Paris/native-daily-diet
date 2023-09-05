@@ -47,7 +47,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <StatusBar style='light' backgroundColor="transparent" translucent />
+      <StatusBar style='dark' backgroundColor="transparent" translucent />
 
       <Layout onLayout={onLayoutRootView} />
     </ThemeProvider>

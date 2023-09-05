@@ -1,18 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
+
+import { Header } from "@components/Header";
+import { Container } from "./styles";
 
 export function Home() {
   return (
-    <View style={styles.container}>
+    <Container>
+      <Header />
       <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    </Container>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
