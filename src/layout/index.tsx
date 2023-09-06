@@ -9,7 +9,7 @@ export function Layout({ ...rest }: LayoutProps) {
   const { COLORS } = useTheme()
 
   return (
-    <View { ...rest } style={{ flex: 1, backgroundColor: COLORS.GRAY_700 }}>
+    <View { ...rest } style={{ flex: 1, backgroundColor: COLORS.GRAY_100 }}>
       <Routes />
     </View>
   )
