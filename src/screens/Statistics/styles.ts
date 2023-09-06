@@ -33,10 +33,7 @@ export const BackButtonIcon = styled(ArrowLeft).attrs<BackButtonIconStyleProps>(
 
 export const Container = styled.View`
   ${({ theme }) => theme.PRED_STYLES.CONTAINER}
-
-  border-top-right-radius: 20px;
-  border-top-left-radius: 20px;
-  margin-top: -32px;
+  ${({ theme }) => theme.PRED_STYLES.POP_CONTAINER}
 
   background-color: ${({ theme }) => theme.COLORS.GRAY_100};
 `

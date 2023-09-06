@@ -23,6 +23,11 @@ export default {
       flex: 1,
       paddingLeft: '24px',
       paddingRight: '24px',
+    },
+    POP_CONTAINER: {
+      borderTopRightRadius: '20px',
+      borderTopLeftRadius: '20px',
+      marginTop: '-32px'
     }
   },
   FONT_FAMILY: {
