@@ -7,7 +7,8 @@ interface ContainerStyleProps {
 }
 
 export const Container = styled.TouchableOpacity<ContainerStyleProps>`
-  width: 100%;
+  /* width: 100%; */
+  align-self: stretch;
   padding: 16px;
   border-radius: 8px;
 

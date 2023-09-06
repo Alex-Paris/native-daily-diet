@@ -1,5 +1,6 @@
 export type RootList = {
   home: undefined
+  statistics: undefined
 }
 
 export declare global {
