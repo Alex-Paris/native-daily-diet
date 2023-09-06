@@ -1,21 +1,26 @@
 import { Block } from "@components/Block";
 
-import { Container, PopContainer, PopData, PopDataInfo, Title } from "./styles";
+import { BackButton, BackButtonIcon, Container, Data, DataInfo, ScreenContainer, Title } from "./styles";
 
 export function Statistics() {
   return (
-    <Container>
+    <ScreenContainer>
       <Block
         type="POSITIVE"
         size="LARGE"
         value="90,86%"
         description="das refeições dentro da dieta"
+        activeOpacity={1}
         style={{ paddingTop: 72, paddingBottom: 66 }}
       />
 
-      <PopContainer>
+      <BackButton>
+        <BackButtonIcon type="POSITIVE" />
+      </BackButton>
+
+      <Container>
         <Title>Estatísticas gerais</Title>
-        <PopData>
+        <Data>
           <Block
             value="22"
             description="melhor sequência de pratos dentro da dieta"
@@ -24,7 +29,7 @@ export function Statistics() {
             value="109"
             description="refeições registradas"
           />
-          <PopDataInfo>
+          <DataInfo>
             <Block
               type="POSITIVE"
               value="99"
@@ -37,9 +42,9 @@ export function Statistics() {
               description="refeições fora da dieta"
               style={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
             />
-          </PopDataInfo>
-        </PopData>
-      </PopContainer>
-    </Container>
+          </DataInfo>
+        </Data>
+      </Container>
+    </ScreenContainer>
   )
 }

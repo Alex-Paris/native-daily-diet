@@ -19,7 +19,7 @@ export default {
     GRAY_100: '#FAFAFA'
   },
   PRED_STYLES: {
-    SCREEN_CONTAINER: {
+    CONTAINER: {
       flex: 1,
       paddingLeft: '24px',
       paddingRight: '24px',
