@@ -9,7 +9,7 @@ import { Container, DateContainer, Form, ScreenContainer } from "./styles";
 
 type IsDietType = boolean | null
 
-export function NewMeal() {
+export function MealEdit() {
   const [isDiet, setIsDiet] = useState<IsDietType>(null)
   
   return (
