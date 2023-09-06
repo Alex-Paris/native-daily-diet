@@ -1,6 +1,8 @@
 import { SafeAreaView } from "react-native-safe-area-context";
 import { css, styled } from "styled-components/native";
 
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
+
 export const Container = styled(SafeAreaView)`
   ${({theme}) => theme.PRED_STYLES.CONTAINER}
   background-color: ${({ theme }) => theme.COLORS.GRAY_100};
@@ -66,17 +68,17 @@ export const ListItemText = styled.Text`
 `
 
 interface ListItemDotStyleProps {
-  type: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL'
+  isDiet: DietTypeDTO
 }
 
 export const ListItemDot = styled.View<ListItemDotStyleProps>`
   width: 14px;
   height: 14px;
   border-radius: 9999px;
-  background-color: ${({ type, theme }) => (
-    type === 'POSITIVE' ?
+  background-color: ${({ isDiet, theme }) => (
+    isDiet === true ?
       theme.COLORS.GREEN_MID :
-      type === 'NEGATIVE' ?
+    isDiet === false ?
       theme.COLORS.RED_MID
     :
       theme.COLORS.GRAY_400

@@ -2,15 +2,14 @@ import { useState } from "react";
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { SectionHeader } from "@components/SectionHeader";
 import { ChoiceButton } from "@components/ChoiceButton";
 
 import { Container, DateContainer, Form, ScreenContainer } from "./styles";
 
-type IsDietType = boolean | null
-
 export function MealEdit() {
-  const [isDiet, setIsDiet] = useState<IsDietType>(null)
+  const [isDiet, setIsDiet] = useState<DietTypeDTO>()
   
   return (
     <ScreenContainer>

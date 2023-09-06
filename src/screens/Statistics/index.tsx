@@ -6,7 +6,7 @@ export function Statistics() {
   return (
     <ScreenContainer>
       <Block
-        type="POSITIVE"
+        isDiet
         size="LARGE"
         value="90,86%"
         description="das refeições dentro da dieta"
@@ -15,7 +15,7 @@ export function Statistics() {
       />
 
       <BackButton>
-        <BackButtonIcon type="POSITIVE" />
+        <BackButtonIcon isDiet />
       </BackButton>
 
       <Container>
@@ -31,13 +31,13 @@ export function Statistics() {
           />
           <DataInfo>
             <Block
-              type="POSITIVE"
+              isDiet
               value="99"
               description="refeições dentro da dieta"
               style={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
             />
             <Block
-              type="NEGATIVE"
+              isDiet={false}
               value="10"
               description="refeições fora da dieta"
               style={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}

@@ -1,5 +1,7 @@
 import { css, styled } from "styled-components/native";
 
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
+
 export const Container = styled.View`
   align-self: stretch;
   gap: 4px;
@@ -18,10 +20,8 @@ export const Content = styled.View`
   gap: 24px;
 `
 
-type TypeProps = 'POSITIVE' | 'NEGATIVE'
-
 interface ButtonStyleProps {
-  type: TypeProps
+  isDiet: DietTypeDTO
   isActive?: boolean
 }
 
@@ -37,29 +37,29 @@ export const Button = styled.TouchableOpacity<ButtonStyleProps>`
   border: 1px solid ${({theme}) => theme.COLORS.GRAY_300};
   background-color: ${({theme}) => theme.COLORS.GRAY_200};
 
-  ${({ type, isActive, theme }) => 
-    type === 'POSITIVE' && isActive && css`
+  ${({ isDiet, isActive, theme }) => 
+    isDiet && isActive && css`
     border: 1px solid ${theme.COLORS.GREEN_DARK};
     background-color: ${theme.COLORS.GREEN_LIGHT};
   `};
 
-  ${({ type, isActive, theme }) => 
-    type === 'NEGATIVE' && isActive && css`
+  ${({ isDiet, isActive, theme }) => 
+    !isDiet && isActive && css`
     border: 1px solid ${theme.COLORS.RED_DARK};
     background-color: ${theme.COLORS.RED_LIGHT};
   `};
 `
 
 interface ButtonDotStyleProps {
-  type: TypeProps
+  isDiet: DietTypeDTO
 }
 
 export const ButtonDot = styled.View<ButtonDotStyleProps>`
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background-color: ${({theme, type}) => 
-    type === 'POSITIVE'
+  background-color: ${({theme, isDiet}) => 
+    isDiet
       ? theme.COLORS.GREEN_DARK
       : theme.COLORS.RED_DARK};
 `

@@ -1,21 +1,21 @@
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { ArrowUpRight } from "phosphor-react-native";
 import { css, styled } from "styled-components/native";
 
 interface ContainerStyleProps {
-  valueType: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL'
+  isDiet: DietTypeDTO
   containerSize: 'NORMAL' | 'LARGE'
 }
 
 export const Container = styled.TouchableOpacity<ContainerStyleProps>`
-  /* width: 100%; */
   align-self: stretch;
   padding: 16px;
   border-radius: 8px;
 
-  background-color: ${({ valueType, theme }) => (
-    valueType === 'POSITIVE' ?
+  background-color: ${({ isDiet, theme }) => (
+    isDiet === true ?
       theme.COLORS.GREEN_LIGHT :
-      valueType === 'NEGATIVE' ?
+    isDiet === false ?
       theme.COLORS.RED_LIGHT
     :
       theme.COLORS.GRAY_200
@@ -57,17 +57,18 @@ export const Description = styled.Text`
 `
 
 interface LinkIconStyleProps {
-  valueType: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL'
+  isDiet: DietTypeDTO
 }
 
-export const LinkIcon = styled(ArrowUpRight).attrs<LinkIconStyleProps>(({ valueType, theme }) => ({
+export const LinkIcon = styled(ArrowUpRight).attrs<LinkIconStyleProps>(({ isDiet, theme }) => ({
   size: 24,
   color:
-    valueType === 'POSITIVE' ?
+    isDiet === true ?
       theme.COLORS.GREEN_DARK :
-        valueType === 'NEGATIVE' ?
-          theme.COLORS.RED_DARK :
-          theme.COLORS.GRAY_600
+    isDiet === false ?
+      theme.COLORS.RED_DARK
+    :
+      theme.COLORS.GRAY_600
 }))`
   position: absolute;
   top: 8px;

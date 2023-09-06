@@ -1,3 +1,4 @@
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { ArrowLeft } from "phosphor-react-native";
 import { css, styled } from "styled-components/native";
 
@@ -18,17 +19,18 @@ export const BackButton = styled.TouchableOpacity`
 `
 
 interface BackButtonIconStyleProps {
-  type: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL'
+  isDiet: DietTypeDTO
 }
 
-export const BackButtonIcon = styled(ArrowLeft).attrs<BackButtonIconStyleProps>(({ theme, type }) => ({
+export const BackButtonIcon = styled(ArrowLeft).attrs<BackButtonIconStyleProps>(({ theme, isDiet }) => ({
   size: 24,
   color:
-    type === 'POSITIVE' ?
+    isDiet === true ?
       theme.COLORS.GREEN_DARK :
-        type === 'NEGATIVE' ?
-          theme.COLORS.RED_DARK :
-          theme.COLORS.GRAY_600
+    isDiet === false ?
+      theme.COLORS.RED_DARK 
+    :
+      theme.COLORS.GRAY_600
 }))``
 
 export const Container = styled.View`

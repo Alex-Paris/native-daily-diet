@@ -75,7 +75,7 @@ export function Home() {
       <Header />
 
       <Block
-        type="POSITIVE"
+        isDiet
         size="LARGE"
         value="90,86%"
         description="das refeições dentro da dieta"
@@ -105,7 +105,7 @@ export function Home() {
             <ListItemHour>{item.hour}</ListItemHour>
             <ListItemDivider />
             <ListItemText>{item.meal}</ListItemText>
-            <ListItemDot type={item.isDiet ? 'POSITIVE' : 'NEGATIVE'} />
+            <ListItemDot isDiet={item.isDiet} />
           </ListItem>
         )}
       />

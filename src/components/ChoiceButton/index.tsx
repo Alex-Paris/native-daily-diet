@@ -1,7 +1,9 @@
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
+
 import { Button, ButtonDot, ButtonText, Container, Content, Text } from "./styles";
 
 interface ChoiceButtonProps {
-  isDiet: boolean | null
+  isDiet: DietTypeDTO
   onSelectChoice: (isDiet: boolean) => void
 }
 
@@ -12,21 +14,21 @@ export function ChoiceButton({ isDiet, onSelectChoice }: ChoiceButtonProps) {
       <Content>
         <Button
           activeOpacity={0.5}
-          type="POSITIVE"
+          isDiet
           isActive={isDiet === true}
           onPress={() => onSelectChoice(true)}
         >
-          <ButtonDot type="POSITIVE" />
+          <ButtonDot isDiet />
           <ButtonText>Sim</ButtonText>
         </Button>
 
         <Button
           activeOpacity={0.5}
-          type="NEGATIVE"
+          isDiet={false}
           isActive={isDiet === false}
           onPress={() => onSelectChoice(false)}
         >
-          <ButtonDot type="NEGATIVE" />
+          <ButtonDot isDiet={false} />
           <ButtonText>Não</ButtonText>
         </Button>
       </Content>
