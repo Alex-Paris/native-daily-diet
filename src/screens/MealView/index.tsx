@@ -1,51 +1,42 @@
 import { useState } from "react";
 
-import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { SectionHeader } from "@components/SectionHeader";
-import { ChoiceButton } from "@components/ChoiceButton";
 
-import { Container, DateContainer, Form, ScreenContainer } from "./styles";
+import { Container, Content, ScreenContainer, Name, Description, ContentText, TitleDate, TagContainer, TagDot, TagText } from "./styles";
 
 export function MealView() {
   const [isDiet, setIsDiet] = useState<DietTypeDTO>()
   
   return (
     <ScreenContainer>
-      <SectionHeader section="Refeição" />
+      <SectionHeader section="Refeição" isDiet={true} />
 
       <Container>
-        <Form>
-          <Input text="Nome" />
-          <Input
-            text="Descrição"
-            multiline
-            numberOfLines={4}
-            maxLength={180}
-            style={{ height: 110 }}
-          />
+        <Content>
+          <ContentText>
+            <Name>Sanduíche</Name>
+            <Description>
+              Sanduíche de pão integral com atum e salada de alface e tomate
+            </Description>
+          </ContentText>
 
-          <DateContainer>
-            <Input
-              text="Data"
-              editable={false}
-              styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
-            />
-            <Input
-              text="Hora"
-              editable={false}
-              styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
-            />
-          </DateContainer>
+          <ContentText>
+            <TitleDate>Data e hora</TitleDate>
+            <Description>
+              12/08/2022 às 16:00
+            </Description>
+          </ContentText>
 
-          <ChoiceButton
-            isDiet={isDiet}
-            onSelectChoice={setIsDiet}
-          />
-        </Form>
+          <TagContainer>
+            <TagDot />
+            <TagText>dentro da dieta</TagText>
+          </TagContainer>
+        </Content>
 
-        <Button text="Cadastrar refeição" />
+        <Button icon="square-edit-outline" text="Editar refeição" />
+        <Button icon="trash-can-outline" type="SECONDARY" text="Excluir refeição" />
       </Container>
     </ScreenContainer>
   )

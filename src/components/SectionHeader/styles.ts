@@ -2,10 +2,24 @@ import { ArrowLeft } from "phosphor-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { css, styled } from "styled-components/native";
 
-export const Container = styled(SafeAreaView)`
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
+
+interface ContainerStyleProps {
+  isDiet: DietTypeDTO
+}
+
+export const Container = styled(SafeAreaView)<ContainerStyleProps>`
   padding: 12px 24px 24px;
   align-items: center;
-  background-color: ${({ theme }) => theme.COLORS.GRAY_300};
+  background-color: 
+    ${({ theme, isDiet }) => 
+      isDiet === true ?
+        theme.COLORS.GREEN_LIGHT :
+      isDiet === false ?
+        theme.COLORS.RED_LIGHT 
+      :
+        theme.COLORS.GRAY_300
+    };
 `
 
 export const Section = styled.Text`
