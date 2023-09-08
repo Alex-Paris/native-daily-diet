@@ -65,7 +65,9 @@ export function MealView({ navigation, route }: MealViewProps) {
 
           <TagContainer>
             <TagDot isDiet={meal?.isDiet} />
-            <TagText>dentro da dieta</TagText>
+            <TagText>
+              {meal?.isDiet ? 'dentro' : 'fora' } da dieta
+            </TagText>
           </TagContainer>
         </Content>
 

@@ -19,6 +19,7 @@ interface HomeProps {
 export function Home({ navigation }: HomeProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [meals, setMeals] = useState<GroupedMeal[]>([])
+  const [percentage, setPercentage] = useState({value: '', diet: false })
 
   function handleNewMeal() {
     navigation.navigate('meal_edit', {})
@@ -28,8 +29,9 @@ export function Home({ navigation }: HomeProps) {
     try {
       setIsLoading(true)
 
-      const data = await mealGetAllGroupedByDate()
+      const { data, percentage } = await mealGetAllGroupedByDate()
       setMeals(data)
+      setPercentage(percentage)
     } catch (error) {
       console.log(error)
       Alert.alert('Refeições', 'Não foi possível carregar as refeições')
@@ -47,9 +49,9 @@ export function Home({ navigation }: HomeProps) {
       <Header />
 
       <Block
-        isDiet
+        isDiet={percentage.diet}
         size="LARGE"
-        value="90,86%"
+        value={percentage.value}
         description="das refeições dentro da dieta"
       />
 
