@@ -88,8 +88,6 @@ export function MealEdit({ navigation, route }: MealEditProps) {
       isDiet
     }
 
-    return console.log(newMeal)
-
     try {
       await mealCreate(newMeal)
 

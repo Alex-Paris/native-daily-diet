@@ -1,36 +1,66 @@
-import { useState } from "react";
+import { Alert } from "react-native";
+import { useCallback, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { AppError } from "@utils/AppError";
 import { Button } from "@components/Button";
-import { DietTypeDTO } from "@dtos/DietTypeDTO";
+import { RootList } from "src/@types/navigation";
+import { MealStorageDTO } from "@dtos/MealStorageDTO";
+import { mealGetById } from "@storage/meal/mealGetById";
 import { SectionHeader } from "@components/SectionHeader";
 
 import { Container, Content, ScreenContainer, Name, Description, ContentText, TitleDate, TagContainer, TagDot, TagText } from "./styles";
 
-export function MealView() {
-  const [isDiet, setIsDiet] = useState<DietTypeDTO>()
-  
+type MealViewProps = NativeStackScreenProps<RootList, "meal_view">
+
+export function MealView({ navigation, route }: MealViewProps) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [meal, setMeal] = useState<MealStorageDTO>()
+
+  async function fetchMeal() {
+    try {
+      setIsLoading(true)
+
+      const data = await mealGetById(route.params.mealId)
+      setMeal(data)
+    } catch (error) {
+      if (error instanceof AppError) {
+        Alert.alert('Refeição', error.message)
+        navigation.navigate('home')
+      } else {
+        console.log(error)
+        Alert.alert('Refeição', 'Não foi possível carregar a refeição')
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
+    fetchMeal()
+  },[]))
+
   return (
     <ScreenContainer>
-      <SectionHeader section="Refeição" isDiet={true} />
+      <SectionHeader section="Refeição" isDiet={meal?.isDiet} />
 
       <Container>
         <Content>
           <ContentText>
-            <Name>Sanduíche</Name>
-            <Description>
-              Sanduíche de pão integral com atum e salada de alface e tomate
-            </Description>
+            <Name>{meal?.name}</Name>
+            <Description>{meal?.description}</Description>
           </ContentText>
 
           <ContentText>
             <TitleDate>Data e hora</TitleDate>
             <Description>
-              12/08/2022 às 16:00
+              {meal?.date} às {meal?.time}
             </Description>
           </ContentText>
 
           <TagContainer>
-            <TagDot />
+            <TagDot isDiet={meal?.isDiet} />
             <TagText>dentro da dieta</TagText>
           </TagContainer>
         </Content>

@@ -1,5 +1,7 @@
 import { css, styled } from "styled-components/native";
 
+import { DietTypeDTO } from "@dtos/DietTypeDTO";
+
 export const ScreenContainer = styled.View`
   flex: 1;
 `
@@ -60,11 +62,19 @@ export const TagContainer = styled.View`
   background-color: ${({ theme }) => theme.COLORS.GRAY_200};
 `
 
-export const TagDot = styled.View`
+interface TagDotStyleProps {
+  isDiet: DietTypeDTO
+}
+
+export const TagDot = styled.View<TagDotStyleProps>`
   width: 8px;
   height: 8px;
   border-radius: 9999px;
-  background-color: ${({ theme }) => theme.COLORS.GREEN_DARK};
+  background-color: ${({ isDiet, theme }) => (
+    isDiet === true ?
+      theme.COLORS.GREEN_DARK :
+      theme.COLORS.RED_DARK
+  )};
 `
 
 export const TagText = styled.Text`
@@ -73,11 +83,4 @@ export const TagText = styled.Text`
     font-family: ${theme.FONT_FAMILY.REGULAR};
     color: ${theme.COLORS.GRAY_700};
   `};
-`
-
-
-export const DateContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  gap: 24px;
 `
