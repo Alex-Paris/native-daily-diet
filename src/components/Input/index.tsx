@@ -1,17 +1,18 @@
-import { StyleProp, TextInputProps, ViewStyle } from "react-native";
+import { StyleProp, TextInput, TextInputProps, ViewStyle } from "react-native";
 
-import { Container, Text, TextInput } from "./styles";
+import { Container, Text, InputField } from "./styles";
 
 interface InputProps extends TextInputProps {
   text: string
   styleContainer?: StyleProp<ViewStyle>
+  inputRef?: React.RefObject<TextInput>
 }
 
-export function Input({ text, styleContainer, ...rest }: InputProps) {
+export function Input({ text, styleContainer, inputRef, ...rest }: InputProps) {
   return (
     <Container style={styleContainer}>
       <Text>{text}</Text>
-      <TextInput {...rest} />
+      <InputField ref={inputRef} {...rest} />
     </Container>
   )
 }

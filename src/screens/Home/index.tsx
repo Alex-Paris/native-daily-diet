@@ -1,74 +1,46 @@
-import { SectionList, View } from "react-native";
+import { useCallback, useState } from "react";
+import { Alert, SectionList, View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { Block } from "@components/Block";
 import { Button } from "@components/Button";
 import { Header } from "@components/Header";
+import { RootList } from "src/@types/navigation";
+import { GroupedMeal } from "@dtos/GroupedMealDTO";
+import { mealGetAllGroupedByDate } from "@storage/meal/mealGetAllGroupedByDate";
 
 import { Container, ListItem, ListItemDivider, ListItemDot, ListItemHour, ListItemText, ListSection, ListSectionTitle, TopText } from "./styles";
 
-export function Home() {
-  const DATA = [
-    {
-      title: '12.08.22',
-      data: [
-        {
-          hour: '20:00',
-          meal: 'Pizza',
-          isDiet: false,
-        },
-        {
-          hour: '20:00',
-          meal: 'Salada',
-          isDiet: true,
-        },
-        {
-          hour: '20:00',
-          meal: 'Fruta',
-          isDiet: true,
-        }
-      ]
-    },
-    {
-      title: '11.08.22',
-      data: [
-        {
-          hour: '20:00',
-          meal: 'Frango',
-          isDiet: true,
-        },
-        {
-          hour: '20:00',
-          meal: 'Burger',
-          isDiet: false,
-        },
-        {
-          hour: '20:00',
-          meal: 'Risotto',
-          isDiet: false,
-        }
-      ]
-    },
-    {
-      title: '10.08.22',
-      data: [
-        {
-          hour: '20:00',
-          meal: 'Pizza',
-          isDiet: false,
-        },
-        {
-          hour: '20:00',
-          meal: 'Burger',
-          isDiet: false,
-        },
-        {
-          hour: '20:00',
-          meal: 'Risotto',
-          isDiet: false,
-        }
-      ]
-    },
-  ];
+interface HomeProps {
+  navigation: NativeStackNavigationProp<RootList, 'home'>
+}
+
+export function Home({ navigation }: HomeProps) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [meals, setMeals] = useState<GroupedMeal[]>([])
+
+  function handleNewMeal() {
+    navigation.navigate('meal_edit', {})
+  }
+
+  async function fetchMeals() {
+    try {
+      setIsLoading(true)
+
+      const data = await mealGetAllGroupedByDate()
+      setMeals(data)
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Refeições', 'Não foi possível carregar as refeições')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useFocusEffect(useCallback(() => {
+    fetchMeals()
+  },[]))
 
   return (
     <Container>
@@ -82,11 +54,11 @@ export function Home() {
       />
 
       <TopText>Refeições</TopText>
-      <Button icon="plus" text="Nova refeição" />
+      <Button icon="plus" text="Nova refeição" onPress={handleNewMeal} />
 
       <SectionList
-        sections={DATA}
-        keyExtractor={(item, index) => item.meal + index}
+        sections={meals}
+        keyExtractor={(item, index) => item.id}
 
         style={{ marginTop: 32 }}
         contentContainerStyle={{ gap: 8 }}
@@ -104,7 +76,7 @@ export function Home() {
           <ListItem>
             <ListItemHour>{item.hour}</ListItemHour>
             <ListItemDivider />
-            <ListItemText>{item.meal}</ListItemText>
+            <ListItemText>{item.name}</ListItemText>
             <ListItemDot isDiet={item.isDiet} />
           </ListItem>
         )}

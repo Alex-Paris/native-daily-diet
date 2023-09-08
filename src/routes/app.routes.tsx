@@ -9,7 +9,7 @@ const { Navigator, Screen } = createNativeStackNavigator()
 
 export function AppRoutes() {
   return (
-    <Navigator initialRouteName='meal_view' screenOptions={{ headerShown: false }}>
+    <Navigator initialRouteName='home' screenOptions={{ headerShown: false }}>
       <Screen name='home' component={Home} />
       <Screen name='statistics' component={Statistics} />
       <Screen name='meal_edit' component={MealEdit} />
