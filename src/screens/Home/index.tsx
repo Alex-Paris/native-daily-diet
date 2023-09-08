@@ -11,6 +11,7 @@ import { GroupedMeal } from "@dtos/GroupedMealDTO";
 import { mealGetAllGroupedByDate } from "@storage/meal/mealGetAllGroupedByDate";
 
 import { Container, ListItem, ListItemDivider, ListItemDot, ListItemHour, ListItemText, ListSection, ListSectionTitle, TopText } from "./styles";
+import { Loading } from "@components/Loading";
 
 interface HomeProps {
   navigation: NativeStackNavigationProp<RootList, 'home'>
@@ -44,6 +45,16 @@ export function Home({ navigation }: HomeProps) {
     fetchMeals()
   },[]))
 
+  if (isLoading) {
+    return (
+      <Container>
+        <Header />
+
+        <Loading />
+      </Container>
+    )
+  }
+
   return (
     <Container>
       <Header />
@@ -60,7 +71,7 @@ export function Home({ navigation }: HomeProps) {
 
       <SectionList
         sections={meals}
-        keyExtractor={(item, index) => item.id}
+        keyExtractor={(item) => item.id}
 
         style={{ marginTop: 32 }}
         contentContainerStyle={{ gap: 8 }}

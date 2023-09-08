@@ -6,6 +6,7 @@ import { NunitoSans_400Regular, NunitoSans_700Bold, useFonts } from '@expo-googl
 
 import theme from '@theme/index'
 import { Layout } from './src/layout';
+import { FakeDelay } from '@utils/FakeDelay';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -28,9 +29,9 @@ export default function App() {
       try {
         // If I have something to load before APP starts, then i do it here!
 
-        // Artificially delay for two seconds to simulate a slow loading
+        // Artificially delay for half second to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await FakeDelay();
       } catch (e) {
         console.warn(e);
       } finally {
