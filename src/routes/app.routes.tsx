@@ -1,11 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import { RootList } from 'src/@types/navigation';
+
 import { Home } from '@screens/Home';
 import { MealEdit } from '@screens/MealEdit';
 import { MealView } from '@screens/MealView';
 import { Statistics } from '@screens/Statistics';
 
-const { Navigator, Screen } = createNativeStackNavigator()
+const { Navigator, Screen } = createNativeStackNavigator<RootList>()
 
 export function AppRoutes() {
   return (

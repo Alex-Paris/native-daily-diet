@@ -15,7 +15,7 @@ import { SectionHeader } from "@components/SectionHeader";
 
 import { Container, DateContainer, Form, ScreenContainer } from "./styles";
 
-interface MealEditProps extends NativeStackScreenProps<ParamListBase, "meal_edit"> {}
+type MealEditProps = NativeStackScreenProps<RootList, "meal_edit">
 
 export function MealEdit({ navigation, route }: MealEditProps) {
   // Use states
