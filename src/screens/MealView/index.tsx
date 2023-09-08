@@ -11,22 +11,34 @@ import { RootList } from "src/@types/navigation";
 import { MealStorageDTO } from "@dtos/MealStorageDTO";
 import { mealGetById } from "@storage/meal/mealGetById";
 import { SectionHeader } from "@components/SectionHeader";
+import { mealRemoveById } from "@storage/meal/mealRemoveById";
+import { formatDate, formatTime } from "@utils/FormatDateTime";
 
 import { Container, Content, ScreenContainer, Name, Description, ContentText, TitleDate, TagContainer, TagDot, TagText } from "./styles";
-import { mealRemoveById } from "@storage/meal/mealRemoveById";
 
 type MealViewProps = NativeStackScreenProps<RootList, "meal_view">
 
 export function MealView({ navigation, route }: MealViewProps) {
+  // States
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
   const [meal, setMeal] = useState<MealStorageDTO>()
+
+  // Constants
+  const { mealId } = route.params
+  const formattedDate = formatDate(meal?.date)
+  const formattedTime = formatTime(meal?.time)
+
+  // Handles
+  function handleEditMeal() {
+    navigation.navigate('meal_edit', { mealId })
+  }
 
   async function handleRemoveMeal() {
     try {
       setIsLoading(true)
 
-      await mealRemoveById(route.params.mealId)
+      await mealRemoveById(mealId)
       navigation.navigate('home')
     } catch (error) {
       console.log(error)
@@ -41,7 +53,7 @@ export function MealView({ navigation, route }: MealViewProps) {
     try {
       setIsLoading(true)
 
-      const data = await mealGetById(route.params.mealId)
+      const data = await mealGetById(mealId)
       setMeal(data)
     } catch (error) {
       if (error instanceof AppError) {
@@ -81,7 +93,7 @@ export function MealView({ navigation, route }: MealViewProps) {
                 <ContentText>
                   <TitleDate>Data e hora</TitleDate>
                   <Description>
-                    {meal?.date} às {meal?.time}
+                    {formattedDate} às {formattedTime}
                   </Description>
                 </ContentText>
       
@@ -96,6 +108,7 @@ export function MealView({ navigation, route }: MealViewProps) {
               <Button
                 icon="square-edit-outline"
                 text="Editar refeição"
+                onPress={handleEditMeal}
               />
               <Button
                 icon="trash-can-outline"

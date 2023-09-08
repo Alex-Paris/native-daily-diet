@@ -3,6 +3,6 @@ export interface MealStorageDTO {
   name: string
   description: string
   isDiet: boolean
-  date: string
-  time: string
+  date: Date
+  time: Date
 }

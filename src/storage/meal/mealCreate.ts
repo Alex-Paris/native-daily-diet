@@ -9,7 +9,13 @@ export async function mealCreate(newMeal: MealStorageDTO) {
   try {
     const stored = await mealGetAll()
 
-    const storage = JSON.stringify([...stored, newMeal])
+    const formattedMeal = {
+      ...newMeal,
+      date: newMeal.date.getTime(),
+      time: newMeal.time.getTime(),
+    }
+
+    const storage = JSON.stringify([...stored, formattedMeal])
     await AsyncStorage.setItem(MEAL_COLLECTION, storage)
   } catch (error) {
     throw error;

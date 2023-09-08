@@ -1,5 +1,7 @@
 import { GroupedMeal } from "@dtos/GroupedMealDTO";
 
+import { formatDate } from "@utils/FormatDateTime";
+
 import { mealGetAll } from "./mealGetAll";
 
 interface ReduceObject {
@@ -11,9 +13,23 @@ export async function mealGetAllGroupedByDate() {
   try {
     const stored = await mealGetAll()
 
+    // Sort stored data by ASC date, so map function will fill group by DESC
+    const sortedStored = stored.sort(function(a,b){
+      const aDate = new Date(a.date).getTime()
+      const aTime = new Date(a.time).getTime()
+      const bDate = new Date(b.date).getTime()
+      const bTime = new Date(b.time).getTime()
+
+      if (aDate === bDate) {
+        return bTime - aTime;
+      }
+      
+      return bDate - aDate;
+    });
+
     // Getting group and all meals that are diet
-    const { group: grouped, dietMealsCount } = stored.reduce((red, meal) => {
-      const formattedDate = meal.date.replaceAll('/', '.')
+    const { group: grouped, dietMealsCount } = sortedStored.reduce((red, meal) => {
+      const formattedDate = formatDate(meal.date).replaceAll('/', '.')
 
       let index = red.group.findIndex(data => data.title === formattedDate)
 
@@ -28,26 +44,21 @@ export async function mealGetAllGroupedByDate() {
         red.dietMealsCount++
       }
 
-      red.group[index].data.push(meal);
+      red.group[index].data.push({
+        ...meal,
+        date: new Date(meal.date),
+        time: new Date(meal.time)
+      });
+
       return red;
     }, <ReduceObject>({group: [], dietMealsCount: 0}));
 
-    // Sort the group by desc date
-    const sorted = grouped.sort(function(a,b){
-      const aArray = a.title.split('.')
-      const bArray = b.title.split('.')
-      const aDate = new Date(`${aArray[2]}-${aArray[1]}-${aArray[0]}`)
-      const bDate = new Date(`${bArray[2]}-${bArray[1]}-${bArray[0]}`)
-
-      return bDate.getTime() - aDate.getTime();
-    });
-
     // Get diet percentage
-    const dietPercentage = dietMealsCount * 100 / sorted.length
+    const dietPercentage = dietMealsCount * 100 / stored.length | 0
     const dietFormatted = dietPercentage.toFixed(2).replaceAll('.', ',')
 
     return {
-      data: sorted,
+      data: grouped,
       percentage: {
         value: `${dietFormatted}%`,
         diet: dietPercentage >= 50

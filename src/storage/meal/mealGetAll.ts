@@ -6,6 +6,7 @@ import { FakeDelay } from "@utils/FakeDelay";
 
 export async function mealGetAll() {
   try {
+    // await AsyncStorage.removeItem(MEAL_COLLECTION)
     const storage = await AsyncStorage.getItem(MEAL_COLLECTION)
   
     const meals: MealStorageDTO[] = storage ? JSON.parse(storage) : []

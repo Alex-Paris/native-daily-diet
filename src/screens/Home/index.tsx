@@ -8,6 +8,7 @@ import { Button } from "@components/Button";
 import { Header } from "@components/Header";
 import { RootList } from "src/@types/navigation";
 import { GroupedMeal } from "@dtos/GroupedMealDTO";
+import { formatTime } from "@utils/FormatDateTime";
 import { mealGetAllGroupedByDate } from "@storage/meal/mealGetAllGroupedByDate";
 
 import { Container, ListItem, ListItemDivider, ListItemDot, ListItemHour, ListItemText, ListSection, ListSectionTitle, TopText } from "./styles";
@@ -84,7 +85,7 @@ export function Home({ navigation }: HomeProps) {
               
               renderItem={({item}) => (
                 <ListItem activeOpacity={0.5} onPress={() => handleViewMeal(item.id)}>
-                  <ListItemHour>{item.time}</ListItemHour>
+                  <ListItemHour>{formatTime(item.time)}</ListItemHour>
                   <ListItemDivider />
                   <ListItemText>{item.name}</ListItemText>
                   <ListItemDot isDiet={item.isDiet} />
