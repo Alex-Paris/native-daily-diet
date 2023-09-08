@@ -100,7 +100,10 @@ export function MealEdit({ navigation, route }: MealEditProps) {
   
   return (
     <ScreenContainer>
-      <SectionHeader section="Nova refeição" />
+      <SectionHeader
+        section="Nova refeição"
+        onBackPress={() => navigation.goBack()}
+      />
 
       <Container>
         <Form>

@@ -43,7 +43,11 @@ export function MealView({ navigation, route }: MealViewProps) {
 
   return (
     <ScreenContainer>
-      <SectionHeader section="Refeição" isDiet={meal?.isDiet} />
+      <SectionHeader
+        section="Refeição"
+        isDiet={meal?.isDiet}
+        onBackPress={() => navigation.navigate('home')}
+      />
 
       <Container>
         <Content>
