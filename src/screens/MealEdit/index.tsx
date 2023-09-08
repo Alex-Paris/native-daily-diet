@@ -1,4 +1,6 @@
 import { useRef, useState } from "react";
+import ptBR from 'date-fns/locale/pt-BR';
+import { isToday, isAfter, format } from "date-fns";
 import { Alert, Keyboard, TextInput } from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -20,9 +22,12 @@ export function MealEdit({ navigation, route }: MealEditProps) {
   // Use states
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
-  const [date, setDate] = useState<Date | undefined>()
-  const [time, setTime] = useState<Date | undefined>()
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
   const [isDiet, setIsDiet] = useState<DietTypeDTO>()
+  // Date Picker states
+  const [dateSelected, setDateSelected] = useState<Date | undefined>()
+  const [timeSelected, setTimeSelected] = useState<Date | undefined>()
   const [showDate, setShowDate] = useState(false)
   const [showTime, setShowTime] = useState(false)
 
@@ -32,12 +37,20 @@ export function MealEdit({ navigation, route }: MealEditProps) {
 
   // Handles
   function handleChangeDate(date: Date) {
-    setDate(date)
+    const formatted = format(date, 'dd/MM/yyyy', {
+      locale: ptBR
+    })
+    setDate(formatted)
+    setDateSelected(date)
     setShowDate(false)
   }
 
   function handleChangeTime(time: Date) {
-    setTime(time)
+    const formatted = format(time, 'HH:mm', {
+      locale: ptBR
+    })
+    setTime(formatted)
+    setTimeSelected(time)
     setShowTime(false)
   }
 
@@ -48,12 +61,16 @@ export function MealEdit({ navigation, route }: MealEditProps) {
       return Alert.alert('Nova refeição', 'Necessário informar o nome da refeição para adicioná-la')
     }
 
-    if (date === undefined) {
+    if (dateSelected === undefined) {
       return Alert.alert('Nova refeição', 'Necessário informar uma data')
     }
 
-    if (time === undefined) {
-      return Alert.alert('Nova refeição', 'Necessário informar uma data')
+    if (timeSelected === undefined) {
+      return Alert.alert('Nova refeição', 'Necessário informar um horário')
+    }
+
+    if (isToday(dateSelected) && isAfter(timeSelected, new Date())) {
+      return Alert.alert('Nova refeição', 'Pela data escolhida ser hoje, o horário precisa ser menor que o horário atual')
     }
 
     if (isDiet === undefined) {
@@ -66,8 +83,8 @@ export function MealEdit({ navigation, route }: MealEditProps) {
       id: mealId,
       name,
       description,
-      date: date.toDateString(),
-      time: time.toTimeString(),
+      date,
+      time,
       isDiet
     }
 
@@ -111,14 +128,14 @@ export function MealEdit({ navigation, route }: MealEditProps) {
           <DateContainer>
             <Input
               text="Data"
-              value={date?.toDateString()}
+              value={date}
               editable={false}
               onPressIn={() => setShowDate(true)}
               styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
             />
             <Input
               text="Hora"
-              value={time?.toTimeString()}
+              value={time}
               editable={false}
               onPressIn={() => setShowTime(true)}
               styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
@@ -136,7 +153,7 @@ export function MealEdit({ navigation, route }: MealEditProps) {
 
       <DateTimePickerModal
         mode="date"
-        date={date}
+        date={dateSelected}
         isVisible={showDate}
         maximumDate={new Date()}
         onConfirm={handleChangeDate}
@@ -145,7 +162,7 @@ export function MealEdit({ navigation, route }: MealEditProps) {
 
       <DateTimePickerModal
         mode="time"
-        date={time}
+        date={timeSelected}
         minuteInterval={10}
         isVisible={showTime}
         onConfirm={handleChangeTime}
