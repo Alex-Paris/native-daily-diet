@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { RouteProp } from "@react-navigation/native";
+import { ParamListBase } from "@react-navigation/native";
 import { Alert, Keyboard, TextInput } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -15,10 +15,7 @@ import { SectionHeader } from "@components/SectionHeader";
 
 import { Container, DateContainer, Form, ScreenContainer } from "./styles";
 
-interface MealEditProps {
-  navigation: NativeStackNavigationProp<RootList, 'meal_edit'>
-  route: RouteProp<RootList, 'meal_edit'>
-}
+interface MealEditProps extends NativeStackScreenProps<ParamListBase, "meal_edit"> {}
 
 export function MealEdit({ navigation, route }: MealEditProps) {
   // Use states
