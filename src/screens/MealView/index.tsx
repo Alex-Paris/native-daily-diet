@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { Modal } from "@components/Modal";
 import { AppError } from "@utils/AppError";
 import { Button } from "@components/Button";
 import { Loading } from "@components/Loading";
@@ -12,12 +13,29 @@ import { mealGetById } from "@storage/meal/mealGetById";
 import { SectionHeader } from "@components/SectionHeader";
 
 import { Container, Content, ScreenContainer, Name, Description, ContentText, TitleDate, TagContainer, TagDot, TagText } from "./styles";
+import { mealRemoveById } from "@storage/meal/mealRemoveById";
 
 type MealViewProps = NativeStackScreenProps<RootList, "meal_view">
 
 export function MealView({ navigation, route }: MealViewProps) {
   const [isLoading, setIsLoading] = useState(true)
+  const [showModal, setShowModal] = useState(false)
   const [meal, setMeal] = useState<MealStorageDTO>()
+
+  async function handleRemoveMeal() {
+    try {
+      setIsLoading(true)
+
+      await mealRemoveById(route.params.mealId)
+      navigation.navigate('home')
+    } catch (error) {
+      console.log(error)
+      Alert.alert('Refeição', 'Não foi possível excluir a refeição')
+    } finally {
+      setIsLoading(false)
+      setShowModal(false)
+    }
+  }
 
   async function fetchMeal() {
     try {
@@ -75,8 +93,22 @@ export function MealView({ navigation, route }: MealViewProps) {
                 </TagContainer>
               </Content>
       
-              <Button icon="square-edit-outline" text="Editar refeição" />
-              <Button icon="trash-can-outline" type="SECONDARY" text="Excluir refeição" />
+              <Button
+                icon="square-edit-outline"
+                text="Editar refeição"
+              />
+              <Button
+                icon="trash-can-outline"
+                type="SECONDARY"
+                text="Excluir refeição"
+                onPress={() => setShowModal(true)}
+              />
+
+              <Modal
+                showModal={showModal}
+                onHideModal={setShowModal}
+                onConfirmModal={handleRemoveMeal}
+              />
             </>
         }
       </Container>

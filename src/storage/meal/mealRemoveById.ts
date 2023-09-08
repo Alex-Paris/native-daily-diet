@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { MEAL_COLLECTION } from "@storage/config";
 import { mealGetAll } from "./mealGetAll";
 
-export async function mealRemoveByName(mealId: string) {
+export async function mealRemoveById(mealId: string) {
   try {
     const stored = await mealGetAll()
 
