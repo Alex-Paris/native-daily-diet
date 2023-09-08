@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
-import { ParamListBase } from "@react-navigation/native";
 import { Alert, Keyboard, TextInput } from "react-native";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { RootList } from "src/@types/navigation";
-// import { DatePicker } from "@components/DatePicker";
 import { mealCreate } from "@storage/meal/mealCreate";
 import { MealStorageDTO } from "@dtos/MealStorageDTO";
 import { ChoiceButton } from "@components/ChoiceButton";
@@ -25,13 +24,23 @@ export function MealEdit({ navigation, route }: MealEditProps) {
   const [time, setTime] = useState<Date | undefined>()
   const [isDiet, setIsDiet] = useState<DietTypeDTO>()
   const [showDate, setShowDate] = useState(false)
-  const [showHour, setShowHour] = useState(false)
+  const [showTime, setShowTime] = useState(false)
 
   // Refs
   const nameInputRef = useRef<TextInput>(null)
   const descriptionInputRef = useRef<TextInput>(null)
 
   // Handles
+  function handleChangeDate(date: Date) {
+    setDate(date)
+    setShowDate(false)
+  }
+
+  function handleChangeTime(time: Date) {
+    setTime(time)
+    setShowTime(false)
+  }
+
   async function handleAddMeal() {
     Keyboard.dismiss()
 
@@ -111,7 +120,7 @@ export function MealEdit({ navigation, route }: MealEditProps) {
               text="Hora"
               value={time?.toTimeString()}
               editable={false}
-              onPressIn={() => setShowHour(true)}
+              onPressIn={() => setShowTime(true)}
               styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
             />
           </DateContainer>
@@ -125,22 +134,23 @@ export function MealEdit({ navigation, route }: MealEditProps) {
         <Button text="Cadastrar refeição" onPress={handleAddMeal} />
       </Container>
 
-      {/* <DatePicker
+      <DateTimePickerModal
         mode="date"
-        value={date ? date : new Date()}
-        onChange={(_, date) => setDate(date)}
-        isShowing={showDate}
-        onShowingChange={setShowDate}
+        date={date}
+        isVisible={showDate}
+        maximumDate={new Date()}
+        onConfirm={handleChangeDate}
+        onCancel={() => setShowDate(false)}
       />
-      <DatePicker
-        mode="time"
-        value={hour ? hour : new Date()}
-        onChange={(_, hour) => setHour(hour)}
-        isShowing={showHour}
-        minuteInterval={10}
-        onShowingChange={setShowHour}
-      /> */}
 
+      <DateTimePickerModal
+        mode="time"
+        date={time}
+        minuteInterval={10}
+        isVisible={showTime}
+        onConfirm={handleChangeTime}
+        onCancel={() => setShowTime(false)}
+      />
     </ScreenContainer>
   )
 }
