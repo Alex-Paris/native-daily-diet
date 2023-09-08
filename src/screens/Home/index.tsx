@@ -26,6 +26,10 @@ export function Home({ navigation }: HomeProps) {
     navigation.navigate('meal_edit', {})
   }
 
+  function handleViewMeal(mealId: string) {
+    navigation.navigate('meal_view', { mealId })
+  }
+
   async function fetchMeals() {
     try {
       setIsLoading(true)
@@ -45,55 +49,51 @@ export function Home({ navigation }: HomeProps) {
     fetchMeals()
   },[]))
 
-  if (isLoading) {
-    return (
-      <Container>
-        <Header />
-
-        <Loading />
-      </Container>
-    )
-  }
-
   return (
     <Container>
       <Header />
 
-      <Block
-        isDiet={percentage.diet}
-        size="LARGE"
-        value={percentage.value}
-        description="das refeições dentro da dieta"
-      />
+      {
+        isLoading ? <Loading /> :
+          <>
+            <Block
+              isDiet={percentage.diet}
+              size="LARGE"
+              value={percentage.value}
+              description="das refeições dentro da dieta"
+            />
 
-      <TopText>Refeições</TopText>
-      <Button icon="plus" text="Nova refeição" onPress={handleNewMeal} />
+            <TopText>Refeições</TopText>
+            <Button icon="plus" text="Nova refeição" onPress={handleNewMeal} />
 
-      <SectionList
-        sections={meals}
-        keyExtractor={(item) => item.id}
+            <SectionList
+              sections={meals}
+              keyExtractor={(item) => item.id}
 
-        style={{ marginTop: 32 }}
-        contentContainerStyle={{ gap: 8 }}
-        showsVerticalScrollIndicator={false}
-        
-        renderSectionHeader={({section: {title}}) => (
-          <ListSection>
-            <ListSectionTitle>{title}</ListSectionTitle>
-          </ListSection>
-        )}
+              style={{ marginTop: 32 }}
+              contentContainerStyle={{ gap: 8 }}
+              showsVerticalScrollIndicator={false}
+              
+              renderSectionHeader={({section: {title}}) => (
+                <ListSection>
+                  <ListSectionTitle>{title}</ListSectionTitle>
+                </ListSection>
+              )}
 
-        renderSectionFooter={() => <View style={{ height: 32 }} />}
-        
-        renderItem={({item}) => (
-          <ListItem>
-            <ListItemHour>{item.time}</ListItemHour>
-            <ListItemDivider />
-            <ListItemText>{item.name}</ListItemText>
-            <ListItemDot isDiet={item.isDiet} />
-          </ListItem>
-        )}
-      />
+              renderSectionFooter={() => <View style={{ height: 32 }} />}
+              
+              renderItem={({item}) => (
+                <ListItem activeOpacity={0.5} onPress={() => handleViewMeal(item.id)}>
+                  <ListItemHour>{item.time}</ListItemHour>
+                  <ListItemDivider />
+                  <ListItemText>{item.name}</ListItemText>
+                  <ListItemDot isDiet={item.isDiet} />
+                </ListItem>
+              )}
+            />
+          </>
+      }
+
     </Container>
   )
 }

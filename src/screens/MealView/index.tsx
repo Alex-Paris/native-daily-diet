@@ -5,6 +5,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { AppError } from "@utils/AppError";
 import { Button } from "@components/Button";
+import { Loading } from "@components/Loading";
 import { RootList } from "src/@types/navigation";
 import { MealStorageDTO } from "@dtos/MealStorageDTO";
 import { mealGetById } from "@storage/meal/mealGetById";
@@ -50,29 +51,34 @@ export function MealView({ navigation, route }: MealViewProps) {
       />
 
       <Container>
-        <Content>
-          <ContentText>
-            <Name>{meal?.name}</Name>
-            <Description>{meal?.description}</Description>
-          </ContentText>
-
-          <ContentText>
-            <TitleDate>Data e hora</TitleDate>
-            <Description>
-              {meal?.date} às {meal?.time}
-            </Description>
-          </ContentText>
-
-          <TagContainer>
-            <TagDot isDiet={meal?.isDiet} />
-            <TagText>
-              {meal?.isDiet ? 'dentro' : 'fora' } da dieta
-            </TagText>
-          </TagContainer>
-        </Content>
-
-        <Button icon="square-edit-outline" text="Editar refeição" />
-        <Button icon="trash-can-outline" type="SECONDARY" text="Excluir refeição" />
+        {
+          isLoading ? <Loading /> :
+            <>
+              <Content>
+                <ContentText>
+                  <Name>{meal?.name}</Name>
+                  <Description>{meal?.description}</Description>
+                </ContentText>
+      
+                <ContentText>
+                  <TitleDate>Data e hora</TitleDate>
+                  <Description>
+                    {meal?.date} às {meal?.time}
+                  </Description>
+                </ContentText>
+      
+                <TagContainer>
+                  <TagDot isDiet={meal?.isDiet} />
+                  <TagText>
+                    {meal?.isDiet ? 'dentro' : 'fora' } da dieta
+                  </TagText>
+                </TagContainer>
+              </Content>
+      
+              <Button icon="square-edit-outline" text="Editar refeição" />
+              <Button icon="trash-can-outline" type="SECONDARY" text="Excluir refeição" />
+            </>
+        }
       </Container>
     </ScreenContainer>
   )

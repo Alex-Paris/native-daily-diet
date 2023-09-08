@@ -33,7 +33,7 @@ export const ListSectionTitle = styled.Text`
   `};
 `
 
-export const ListItem = styled.View`
+export const ListItem = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
 
