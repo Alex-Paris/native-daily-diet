@@ -74,7 +74,7 @@ export function Home({ navigation }: HomeProps) {
         
         renderItem={({item}) => (
           <ListItem>
-            <ListItemHour>{item.hour}</ListItemHour>
+            <ListItemHour>{item.time}</ListItemHour>
             <ListItemDivider />
             <ListItemText>{item.name}</ListItemText>
             <ListItemDot isDiet={item.isDiet} />

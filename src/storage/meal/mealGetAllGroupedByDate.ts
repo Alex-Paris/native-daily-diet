@@ -7,12 +7,13 @@ export async function mealGetAllGroupedByDate() {
     const stored = await mealGetAll()
 
     const grouped = stored.reduce((group: GroupedMeal[], meal) => {
-      const { date } = meal;
-      let index = group.findIndex(data => data.title === date)
+      const formattedDate = meal.date.replaceAll('/', '.')
+
+      let index = group.findIndex(data => data.title === formattedDate)
 
       if (index === -1) {
         index = group.push({
-          title: date,
+          title: formattedDate,
           data: []
         }) - 1
       }
@@ -21,7 +22,16 @@ export async function mealGetAllGroupedByDate() {
       return group;
     }, []);
 
-    return grouped
+    const sorted = grouped.sort(function(a,b){
+      const aArray = a.title.split('.')
+      const bArray = b.title.split('.')
+      const aDate = new Date(`${aArray[2]}-${aArray[1]}-${aArray[0]}`)
+      const bDate = new Date(`${bArray[2]}-${bArray[1]}-${bArray[0]}`)
+
+      return bDate.getTime() - aDate.getTime();
+    });
+
+    return sorted
   } catch (error) {
     throw error;
   }
