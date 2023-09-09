@@ -93,7 +93,11 @@ export function MealEdit({ navigation, route }: MealEditProps) {
     try {
       await mealCreate(newMeal)
 
-      navigation.navigate('meal_view', { mealId })
+      if (isEditing) {
+        navigation.navigate('meal_view', { mealId })
+      } else {
+        navigation.navigate('meal_created', { isDiet })
+      }
     } catch (error) {
       console.log(error)
       Alert.alert('Refeição', 'Não foi possível adicionar/editar')

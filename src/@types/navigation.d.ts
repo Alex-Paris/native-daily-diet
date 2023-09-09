@@ -7,6 +7,9 @@ export type RootList = {
   meal_view: {
     mealId: string
   }
+  meal_created: {
+    isDiet: boolean
+  }
 }
 
 export declare global {
