@@ -5,13 +5,13 @@ import { Alert, Keyboard, TextInput } from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { MealDTO } from "@dtos/MealDTO";
 import { Input } from "@components/Input";
 import { AppError } from "@utils/AppError";
 import { Button } from "@components/Button";
 import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { RootList } from "src/@types/navigation";
 import { mealCreate } from "@storage/meal/mealCreate";
-import { MealStorageDTO } from "@dtos/MealStorageDTO";
 import { mealGetById } from "@storage/meal/mealGetById";
 import { ChoiceButton } from "@components/ChoiceButton";
 import { SectionHeader } from "@components/SectionHeader";
@@ -81,7 +81,7 @@ export function MealEdit({ navigation, route }: MealEditProps) {
       mealId = route.params.mealId
     }
 
-    const newMeal: MealStorageDTO = {
+    const newMeal: MealDTO = {
       id: mealId,
       name,
       description,

@@ -5,7 +5,7 @@ import { mealGetAll } from "./mealGetAll";
 
 export async function mealRemoveById(mealId: string) {
   try {
-    const stored = await mealGetAll()
+    const { formatted: stored } = await mealGetAll()
 
     const meals = stored.filter(meal => meal.id !== mealId)
 

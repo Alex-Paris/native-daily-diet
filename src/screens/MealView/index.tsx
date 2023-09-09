@@ -3,12 +3,12 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
+import { MealDTO } from "@dtos/MealDTO";
 import { Modal } from "@components/Modal";
 import { AppError } from "@utils/AppError";
 import { Button } from "@components/Button";
 import { Loading } from "@components/Loading";
 import { RootList } from "src/@types/navigation";
-import { MealStorageDTO } from "@dtos/MealStorageDTO";
 import { mealGetById } from "@storage/meal/mealGetById";
 import { SectionHeader } from "@components/SectionHeader";
 import { mealRemoveById } from "@storage/meal/mealRemoveById";
@@ -22,7 +22,7 @@ export function MealView({ navigation, route }: MealViewProps) {
   // States
   const [isLoading, setIsLoading] = useState(true)
   const [showModal, setShowModal] = useState(false)
-  const [meal, setMeal] = useState<MealStorageDTO>()
+  const [meal, setMeal] = useState<MealDTO>()
 
   // Constants
   const { mealId } = route.params

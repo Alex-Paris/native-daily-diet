@@ -1,6 +1,6 @@
-import { MealStorageDTO } from "./MealStorageDTO";
+import { MealDTO } from "./MealDTO";
 
 export interface GroupedMeal {
   title: string,
-  data: MealStorageDTO[];
+  data: MealDTO[];
 }
