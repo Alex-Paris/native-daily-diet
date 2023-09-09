@@ -6,13 +6,14 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Block } from "@components/Block";
 import { Button } from "@components/Button";
 import { Header } from "@components/Header";
+import { Loading } from "@components/Loading";
 import { RootList } from "src/@types/navigation";
 import { GroupedMeal } from "@dtos/GroupedMealDTO";
 import { formatTime } from "@utils/FormatDateTime";
+import { MealPercentageDTO } from "@dtos/MealPercentageDTO";
 import { mealGetAllGroupedByDate } from "@storage/meal/mealGetAllGroupedByDate";
 
 import { Container, ListItem, ListItemDivider, ListItemDot, ListItemHour, ListItemText, ListSection, ListSectionTitle, TopText } from "./styles";
-import { Loading } from "@components/Loading";
 
 interface HomeProps {
   navigation: NativeStackNavigationProp<RootList, 'home'>
@@ -21,7 +22,14 @@ interface HomeProps {
 export function Home({ navigation }: HomeProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [meals, setMeals] = useState<GroupedMeal[]>([])
-  const [percentage, setPercentage] = useState({value: '', diet: false })
+  const [percentage, setPercentage] = useState<MealPercentageDTO>({
+    value: '00,00%',
+    isDiet: false,
+    bestSequenceOfDietMeals: 0,
+    dietMealsAmount: 0,
+    nonDietMealsAmount: 0,
+    totalMealsAmount: 0
+  })
 
   function handleNewMeal() {
     navigation.navigate('meal_edit', {})
@@ -29,6 +37,10 @@ export function Home({ navigation }: HomeProps) {
 
   function handleViewMeal(mealId: string) {
     navigation.navigate('meal_view', { mealId })
+  }
+
+  function handleStatisticsPage() {
+    navigation.navigate('statistics', { statistics: percentage })
   }
 
   async function fetchMeals() {
@@ -58,9 +70,10 @@ export function Home({ navigation }: HomeProps) {
         isLoading ? <Loading /> :
           <>
             <Block
-              isDiet={percentage.diet}
+              isDiet={percentage.isDiet}
               size="LARGE"
               value={percentage.value}
+              onPress={handleStatisticsPage}
               description="das refeições dentro da dieta"
             />
 

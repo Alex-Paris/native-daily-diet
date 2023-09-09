@@ -1,6 +1,10 @@
+import { MealPercentageDTO } from "@dtos/MealPercentageDTO"
+
 export type RootList = {
   home: undefined
-  statistics: undefined
+  statistics: {
+    statistics: MealPercentageDTO
+  }
   meal_edit: {
     mealId?: string
   }

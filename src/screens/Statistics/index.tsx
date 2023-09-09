@@ -1,44 +1,58 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
 import { Block } from "@components/Block";
+import { RootList } from "src/@types/navigation";
 
 import { BackButton, BackButtonIcon, Container, Data, DataInfo, ScreenContainer, Title } from "./styles";
 
-export function Statistics() {
+type StatisticsProps = NativeStackScreenProps<RootList, "statistics">
+
+export function Statistics({ navigation, route }: StatisticsProps) {
+  const {
+    value,
+    isDiet,
+    bestSequenceOfDietMeals,
+    dietMealsAmount,
+    nonDietMealsAmount,
+    totalMealsAmount
+  } = route.params.statistics
+
   return (
     <ScreenContainer>
       <Block
-        isDiet
+        isDiet={isDiet}
         size="LARGE"
-        value="90,86%"
+        value={value}
         description="das refeições dentro da dieta"
         activeOpacity={1}
         style={{ paddingTop: 72, paddingBottom: 66 }}
       />
 
-      <BackButton>
-        <BackButtonIcon isDiet />
+      <BackButton onPress={() => navigation.navigate('home')}>
+        <BackButtonIcon isDiet={isDiet} />
       </BackButton>
 
       <Container>
         <Title>Estatísticas gerais</Title>
         <Data>
           <Block
-            value="22"
+            value={`${bestSequenceOfDietMeals}`}
             description="melhor sequência de pratos dentro da dieta"
           />
           <Block
-            value="109"
+            value={`${totalMealsAmount}`}
             description="refeições registradas"
           />
           <DataInfo>
             <Block
               isDiet
-              value="99"
+              value={`${dietMealsAmount}`}
               description="refeições dentro da dieta"
               style={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
             />
             <Block
               isDiet={false}
-              value="10"
+              value={`${nonDietMealsAmount}`}
               description="refeições fora da dieta"
               style={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
             />
