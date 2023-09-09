@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import ptBR from 'date-fns/locale/pt-BR';
-import { isToday, isAfter, format } from "date-fns";
+import { isToday, isAfter } from "date-fns";
 import { Alert, Keyboard, TextInput } from "react-native";
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -9,6 +8,7 @@ import { MealDTO } from "@dtos/MealDTO";
 import { Input } from "@components/Input";
 import { AppError } from "@utils/AppError";
 import { Button } from "@components/Button";
+import { Loading } from "@components/Loading";
 import { DietTypeDTO } from "@dtos/DietTypeDTO";
 import { RootList } from "src/@types/navigation";
 import { mealCreate } from "@storage/meal/mealCreate";
@@ -143,53 +143,58 @@ export function MealEdit({ navigation, route }: MealEditProps) {
       />
 
       <Container>
-        <Form>
-          <Input
-            text="Nome"
-            value={name}
-            onChangeText={setName}
-            inputRef={nameInputRef}
-            returnKeyType="next"
-            onSubmitEditing={() => { descriptionInputRef.current?.focus() }}
-          />
-          <Input
-            text="Descrição"
-            multiline
-            numberOfLines={4}
-            maxLength={180}
-            style={{ height: 110 }}
-            value={description}
-            onChangeText={setDescription}
-            inputRef={descriptionInputRef}
-          />
+        {
+          isLoading ? <Loading /> :
+          <>
+            <Form>
+              <Input
+                text="Nome"
+                value={name}
+                onChangeText={setName}
+                inputRef={nameInputRef}
+                returnKeyType="next"
+                onSubmitEditing={() => { descriptionInputRef.current?.focus() }}
+              />
+              <Input
+                text="Descrição"
+                multiline
+                numberOfLines={4}
+                maxLength={180}
+                style={{ height: 110 }}
+                value={description}
+                onChangeText={setDescription}
+                inputRef={descriptionInputRef}
+              />
 
-          <DateContainer>
-            <Input
-              text="Data"
-              value={formattedDate}
-              editable={false}
-              onPressIn={() => setShowDate(true)}
-              styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
+              <DateContainer>
+                <Input
+                  text="Data"
+                  value={formattedDate}
+                  editable={false}
+                  onPressIn={() => setShowDate(true)}
+                  styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
+                />
+                <Input
+                  text="Hora"
+                  value={formattedTime}
+                  editable={false}
+                  onPressIn={() => setShowTime(true)}
+                  styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
+                />
+              </DateContainer>
+
+              <ChoiceButton
+                isDiet={isDiet}
+                onSelectChoice={setIsDiet}
+              />
+            </Form>
+
+            <Button
+              text={!isEditing ? "Cadastrar refeição" : "Salvar alterações"}
+              onPress={handleAddMeal}
             />
-            <Input
-              text="Hora"
-              value={formattedTime}
-              editable={false}
-              onPressIn={() => setShowTime(true)}
-              styleContainer={{ flexGrow: 1, flexShrink: 0, flexBasis:0 }}
-            />
-          </DateContainer>
-
-          <ChoiceButton
-            isDiet={isDiet}
-            onSelectChoice={setIsDiet}
-          />
-        </Form>
-
-        <Button
-          text={!isEditing ? "Cadastrar refeição" : "Salvar alterações"}
-          onPress={handleAddMeal}
-        />
+          </>
+        }
       </Container>
 
       <DateTimePickerModal
